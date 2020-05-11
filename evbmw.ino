@@ -6,6 +6,7 @@
 #include "CanBus.h"
 #include <string.h>
 #include "ThrottleSensor.h"
+#include "TempSensor.h"
 
 WiFiOTA wota;
 PinsSettings pins;
@@ -13,9 +14,12 @@ Intervals intervals;
 CanBus can;
 MqttPubSub mqtt;
 ThrottleSensor tps;
+TempSensor temps;
+
 long lastCAN2mqtt = 0;
 int tempPotValue = 0;
 bool firstRun = true;
+long lastTempRead = 0;
 
 void setup() {
   status.bootedMillis = millis();
@@ -40,10 +44,10 @@ void loop() {
     publishCANmessage(can.CAN0message);
     can.CAN0messageEmpty = true;
   }
-  if (!can.CAN1messageEmpty) {
+  /* if (!can.CAN1messageEmpty) {
     publishCANmessage(can.CAN1message);
     can.CAN1messageEmpty = true;
-  }
+  } */
 
   //Read analog sensor value
   tempPotValue = tps.handleThrottleSensor();
@@ -54,6 +58,12 @@ void loop() {
       mqtt.publishStatus(false);
     }
   }
+
+  if(status.currentMillis-lastTempRead>500) {
+    status.temp_sensor = temps.handleTempSensor();
+    lastTempRead=status.currentMillis;
+  }
+
   mqtt.publishStatus(true);
 
   //Receive MQTT messages

@@ -50,6 +50,7 @@ void MqttPubSub::publishStatus(bool waitForInterval) {
     doc["rpm"] = status.rpm;
     doc["manual_rpm_control"] = status.manual_rpm_control;
     doc["coolant_temp"] = status.coolant_temp;
+    doc["temp_sensor"] = status.temp_sensor;
     doc["receivedCount"] = status.receivedCount;
     doc["missedSend"] = status.missedSend;
     doc["uptime"] = (status.currentMillis - status.bootedMillis) / 1000;

@@ -17,8 +17,8 @@ CanBus::CanBus() {
 
 void CanBus::init() {
   CAN0.setCANPins(pinsSettings.can0_rx, pinsSettings.can0_tx);
-  CAN1.setCSPin(pinsSettings.can1_cs);
-  CAN1.setINTPin(pinsSettings.can1_int);
+  //CAN1.setCSPin(pinsSettings.can1_cs);
+  //CAN1.setINTPin(pinsSettings.can1_int);
 }
 
 void CanBus::setup() {
@@ -32,11 +32,11 @@ void CanBus::setup() {
   CAN0.watchFor(); //let everything through
 
   // Initialize MCP2515 CAN controller at the specified speed
-  if (CAN1.begin(500000)) {
-    Serial.println("MCP2515 Init OK.");
-  } else {
-    Serial.println("MCP2515 Init Failed!");
-  }
+  //if (CAN1.begin(500000)) {
+  //  Serial.println("MCP2515 Init OK.");
+  //} else {
+  //  Serial.println("MCP2515 Init Failed!");
+  //}
   /* we are using CAN1 only for sending
      CAN1.setCallback(0, handleCAN1CB);
      CAN1.watchFor(); //let everything through
@@ -103,7 +103,7 @@ void CanBus::handle() {
     serializeJson(docJ, CAN0message);
     CAN0messageEmpty = false;
   }
-  if (CAN1.read(frame)) {
+  /* if (CAN1.read(frame)) {
     // Print message
     status.receivedCount++;
     docJ.clear();
@@ -118,7 +118,7 @@ void CanBus::handle() {
     }
     serializeJson(docJ, CAN1message);
     CAN1messageEmpty = false;
-  }
+  } */
 }
 
 void CanBus::sendMessageSet() {
@@ -137,9 +137,9 @@ void CanBus::sendMessageSet() {
       Serial.println(status.coolant_temp);*/
     /* When sending from CAN1 to CAN0 connections to mqtt fail
         and ultimatelly restarts - probably missing INT pin */
-    CAN1.sendFrame(frames[0]);
-    CAN1.sendFrame(frames[1]);
-    CAN1.sendFrame(frames[2]);
+    CAN0.sendFrame(frames[0]);
+    CAN0.sendFrame(frames[1]);
+    CAN0.sendFrame(frames[2]);
     //printFrame(&frames[1], 0);
   }
 }
