@@ -5,7 +5,7 @@
 
 StaticJsonDocument<512> doc;
 MqttPubSub globalMqttPubSub;
-long lastReconnectAttempt=0;
+long lastReconnectAttempt = 0;
 
 MqttPubSub::MqttPubSub() {
 }
@@ -55,6 +55,13 @@ void MqttPubSub::publishStatus(bool waitForInterval) {
     doc["missedSend"] = status.missedSend;
     doc["uptime"] = (status.currentMillis - status.bootedMillis) / 1000;
     doc["currentMillis"] = status.currentMillis;
+    doc["mosfetG5"] = status.mosfetG5;
+    doc["mosfetG6"] = status.mosfetG6;
+    doc["mosfetG7"] = status.mosfetG7;
+    doc["mosfetG8"] = status.mosfetG8;
+    doc["digipot1"] = status.digipot1;
+    doc["digipot2"] = status.digipot2;
+
     char buffer[512];
     serializeJson(doc, buffer);
     client.publish("vehicle/out", buffer);
@@ -81,6 +88,30 @@ void MqttPubSub::callback(char* topic, byte* message, unsigned int length) {
     }
     if (doc.containsKey("coolant_temp")) {
       status.coolant_temp = doc["coolant_temp"];
+      statusChanged = true;
+    }
+    if (doc.containsKey("mosfetG5")) {
+      status.mosfetG5 = doc["mosfetG5"];
+      statusChanged = true;
+    }
+    if (doc.containsKey("mosfetG6")) {
+      status.mosfetG6 = doc["mosfetG6"];
+      statusChanged = true;
+    }
+    if (doc.containsKey("mosfetG7")) {
+      status.mosfetG7 = doc["mosfetG7"];
+      statusChanged = true;
+    }
+    if (doc.containsKey("mosfetG8")) {
+      status.mosfetG8 = doc["mosfetG8"];
+      statusChanged = true;
+    }
+    if (doc.containsKey("digipot1")) {
+      status.digipot1 = doc["digipot1"];
+      statusChanged = true;
+    }
+    if (doc.containsKey("digipot2")) {
+      status.digipot2 = doc["digipot2"];
       statusChanged = true;
     }
     if (statusChanged) {

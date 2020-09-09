@@ -16,7 +16,7 @@ WiFiOTA::WiFiOTA()
 }
 
 void WiFiOTA::setupWiFi() {
-  delay(10);
+  delay(200);
   Serial.print("Conecting to WiFi... ");
   // WiFi setup
   WiFiMulti.addAP(wifiSettings.ssid, wifiSettings.password);

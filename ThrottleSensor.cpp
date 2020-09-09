@@ -27,6 +27,8 @@ int ThrottleSensor::getPotValue(int readValue) {
 
 //returns -1 if no change - handles minimum value and conversion to proper range
 int ThrottleSensor::handleThrottleSensor() {
+  return 800; // analogRead(pinsSettings.pot);
+  /*
   //Handle Potentiometer
   tempPotValue = getPotValue(analogRead(pinsSettings.pot));
   //ignore small changes
@@ -42,5 +44,5 @@ int ThrottleSensor::handleThrottleSensor() {
   }
   else {
     return -1;
-  }
+  }*/
 }
