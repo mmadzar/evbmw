@@ -90,35 +90,9 @@ void CanBus::handle() {
   if (CAN0.read(frame)) {
     // Print message
     status.receivedCount++;
-    docJ.clear();
-    docJ["idx"] = 2;
-    docJ["CAN"] = 0; //message received on CAN0
-    docJ["id"] = String(frame.id, HEX);
-    docJ["len"] = String(frame.length, DEC);
-    docJ["ext"] = frame.extended;
-    JsonArray data = docJ.createNestedArray("data");
-    for (int i = 0; i < frame.length; i++) {
-      data.add(String(frame.data.byte[i], HEX));
-    }
-    serializeJson(docJ, CAN0message);
+    memcpy(CAN0message, frame.data, sizeof(frame.data));
     CAN0messageEmpty = false;
   }
-  /* if (CAN1.read(frame)) {
-    // Print message
-    status.receivedCount++;
-    docJ.clear();
-    docJ["idx"] = 2;
-    docJ["CAN"] = 1; //message received on CAN1
-    docJ["id"] = String(frame.id, HEX);
-    docJ["len"] = String(frame.length, DEC);
-    docJ["ext"] = frame.extended;
-    JsonArray data = docJ.createNestedArray("data");
-    for (int i = 0; i < frame.length; i++) {
-      data.add(String(frame.data.byte[i], HEX));
-    }
-    serializeJson(docJ, CAN1message);
-    CAN1messageEmpty = false;
-  } */
 }
 
 void CanBus::sendMessageSet() {

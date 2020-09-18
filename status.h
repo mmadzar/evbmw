@@ -14,8 +14,8 @@ struct Status {
   long missedSend = 0;
   long bootedMillis = 0;
   long currentMillis = 0;
-  int mosfetG5 = 0;
-  int mosfetG6 = 0;
+  int mosfetG5 = 0; //as switch
+  int mosfetG6 = 0; //as switch
   /*
  configured in MQTT client / 128 bit value - percentage 
   1 / 0-1.2 - 0-1%   - stop 0%

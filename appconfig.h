@@ -47,9 +47,9 @@ struct MqttSettings {
 };
 
 struct Intervals {
-  const int statusPublish = 1000; //interval at which status is published
-  const int Can2Mqtt = 1000;      //send CAN messages to MQTT every n secconds. Set to 0 forward all
-  const int CANsend = 10;         // interval at which send CAN Messages (milliseconds)
+  const int statusPublish = 1000; //interval at which status is published to MQTT
+  const int Can2Mqtt = 1000;      //send CAN messages to MQTT every n secconds. Accumulate messages until. Set this to 0 for forwarding all CAN messages to MQTT as they are received.
+  const int CANsend = 10;         //interval at which to send CAN Messages to car bus network (milliseconds)
 };
 
 extern WiFiSettings wifiSettings;

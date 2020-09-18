@@ -19,7 +19,7 @@ class CanBus {
     int byteArray[2];
   public:
     CanBus();
-    char CAN0message[512];
+    byte CAN0message[2048];
     //char CAN1message[512];
     bool CAN0messageEmpty=true;
     //bool CAN1messageEmpty=true;
